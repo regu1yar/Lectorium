@@ -3,9 +3,7 @@ package org.example.controller;
 import org.example.model.Recording;
 import org.example.repository.RecordingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,7 +14,13 @@ public class RecordingController {
     RecordingRepository repo;
 
     @GetMapping("/api/recordings")
-    public List<Recording> gr() {
+    public List<Recording> get() {
         return repo.findAll();
+    }
+
+    // TODO: separate creation and update
+    @PostMapping(value = "/api/recordings/save", consumes = "application/json")
+    public void save(@RequestBody Recording rec) {
+        repo.save(rec);
     }
 }

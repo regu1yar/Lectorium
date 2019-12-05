@@ -30,8 +30,6 @@ import java.util.stream.Stream;
 class Initializer {
     @Autowired
     Initializer(UserRepository usersRepo, PlaylistRepository playlistsRepo, RecordingRepository recordingsRepo) throws InterruptedException {
-        Thread.sleep(10000);
-
         List<User> users = Stream.of("Mask", "Leha", "Roma").map(name -> User.builder().name(name).build()).collect(Collectors.toList());
         usersRepo.saveAll(users);
 
@@ -62,8 +60,6 @@ class Initializer {
             ).collect(Collectors.toList());
 
         recordingsRepo.saveAll(recordings);
-
-        System.out.println("INIT DONE!");
     }
 }
 
