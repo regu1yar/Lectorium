@@ -22,6 +22,7 @@ import moment from 'moment';
 
 let users = null;
 let playlists = null;
+const api_url = "http://192.168.0.110:8080/"
 
 
 function Rec({recording: {name, time, playlist: {name: playlistName}, playlist_index, operator, editor, status}}) {
@@ -43,10 +44,10 @@ function Rec({recording: {name, time, playlist: {name: playlistName}, playlist_i
 
 
 async function main() {
-    users = await (await fetch("http://localhost:8080/api/users")).json();
-    playlists = await (await fetch("http://localhost:8080/api/playlists")).json();
+    users = await (await fetch(api_url + "api/users")).json();
+    playlists = await (await fetch(api_url + "api/playlists")).json();
 
-    let recordings = await (await fetch("http://localhost:8080/api/recordings")).json();
+    let recordings = await (await fetch(api_url + "api/recordings")).json();
     console.log(recordings);
 
     ReactDOM.render(
