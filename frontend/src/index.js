@@ -1,12 +1,64 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import * as Redux from 'redux';
+import {connect} from 'react-redux'
+// import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+    faClock,
+    faVideo,
+    faFilm,
+    faPhotoVideo,
+    faListOl,
+    faBars,
+    faListUl,
+    faCalendarDay
+} from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+let users = null;
+let playlists = null;
+
+
+function Rec({recording: {name, time, playlist: {name: playlistName}, playlist_index, operator, editor, status}}) {
+    const shotTimeIcon = <FontAwesomeIcon icon={faCalendarDay} title="Shot time"/>;
+    const operatorIcon = <FontAwesomeIcon icon={faVideo} title="Operator"/>;
+    const editorIcon = <FontAwesomeIcon icon={faPhotoVideo} title="Editor"/>;
+    const playlistIcon = <FontAwesomeIcon icon={faListUl} title="Playlist"/>;
+    return (
+        <div className="recording">
+            <div className={`title ${status.toLowerCase()}`}>{playlistIcon} {playlistName} <span
+                className="number">{playlist_index}</span></div>
+            <span className="name"> <input value={name} onChange={(ev) => console.log(ev.target.value)}/> </span>
+            <span>{shotTimeIcon} {moment(time).format("YYYY-MM-DD")} </span>
+            <span>{operatorIcon} {operator.name} </span>
+            <span>{editorIcon} {editor.name} </span>
+        </div>
+    );
+}
+
+
+async function main() {
+    users = await (await fetch("http://localhost:8080/api/users")).json();
+    playlists = await (await fetch("http://localhost:8080/api/playlists")).json();
+
+    let recordings = await (await fetch("http://localhost:8080/api/recordings")).json();
+    console.log(recordings);
+
+    ReactDOM.render(
+        <div className="list">
+            {recordings.map(recording => <Rec key={recording.id} recording={recording}/>)}
+        </div>,
+        document.getElementById("root"));
+
+    console.log(users);
+
+}
+
+main();
+
+ReactDOM.render(<div>awdwad</div>, document.getElementById("root"));
