@@ -1,0 +1,19 @@
+.RecordingEditor {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background: burlywood;
+    border: 2px solid chocolate;
+    border-radius: 3px;
+}
+
+.RecordingEditor > * {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.RecordingEditor .react-datetime-picker {
+    background: white;
+}

@@ -1,65 +1,90 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import RecordingsGrid from "./components/RecordingsGrid";
+import RecordingEditor from "./components/RecordingEditor";
+import Recording from "./components/Recording";
 import * as Redux from 'redux';
-import {connect} from 'react-redux'
-// import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faClock,
-    faVideo,
-    faFilm,
-    faPhotoVideo,
-    faListOl,
-    faBars,
-    faListUl,
-    faCalendarDay
-} from '@fortawesome/free-solid-svg-icons'
-import moment from 'moment';
+import axios from 'axios';
+import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "./reducers";
+import {connect, Provider} from "react-redux";
 
 // ReactDOM.render(<App />, document.getElementById('root'));
 
-let users = null;
-let playlists = null;
-const api_url = "http://192.168.0.110:8080/"
+// const api_url = "http://192.168.0.110:8080/";
+const api_url = "http://localhost:8080/";
+
+const store = Redux.createStore(lectorium,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 
-function Rec({recording: {name, time, playlist: {name: playlistName}, playlist_index, operator, editor, status}}) {
-    const shotTimeIcon = <FontAwesomeIcon icon={faCalendarDay} title="Shot time"/>;
-    const operatorIcon = <FontAwesomeIcon icon={faVideo} title="Operator"/>;
-    const editorIcon = <FontAwesomeIcon icon={faPhotoVideo} title="Editor"/>;
-    const playlistIcon = <FontAwesomeIcon icon={faListUl} title="Playlist"/>;
-    return (
-        <div className="recording">
-            <div className={`title ${status.toLowerCase()}`}>{playlistIcon} {playlistName} <span
-                className="number">{playlist_index}</span></div>
-            <span className="name"> <input value={name} onChange={(ev) => console.log(ev.target.value)}/> </span>
-            <span>{shotTimeIcon} {moment(time).format("YYYY-MM-DD")} </span>
-            <span>{operatorIcon} {operator.name} </span>
-            <span>{editorIcon} {editor.name} </span>
-        </div>
-    );
+function normalize(objArray) {
+    return {
+        byId: Object.fromEntries(objArray.map(obj => [obj.id, obj])),
+        allIds: objArray.map(obj => obj.id),
+    };
 }
 
 
 async function main() {
-    users = await (await fetch(api_url + "api/users")).json();
-    playlists = await (await fetch(api_url + "api/playlists")).json();
+    const users = await (await fetch(api_url + "api/users")).json();
+    const playlists = await (await fetch(api_url + "api/playlists")).json();
+
+    store.dispatch({type: SET_USERS, users: normalize(users)});
+    store.dispatch({type: SET_PLAYLISTS, playlists: normalize(playlists)});
 
     let recordings = await (await fetch(api_url + "api/recordings")).json();
-    console.log(recordings);
+    store.dispatch({type: SET_RECORDINGS, recordings: normalize(recordings)});
 
+    // async function cb(val) {
+    //     const resp = await axios.post(api_url + "api/recordings/save", val);
+    //     main();
+    // }
+    //
+    //
+    // recordings[0].id = null;
+    // ReactDOM.render(
+    //    // <RecordingsGrid recordings={recordings}/>,
+    //     <>
+    //         <RecordingEditor defaultValue={recordings[0]} users={users} playlists={playlists} onSubmit={cb}/>
+    //         <RecordingsGrid recordings={recordings} users={users} playlists={playlists}/>
+    //     </>,
+    //     document.getElementById("root"));
+    //
+
+    console.dir(store.getState());
+
+    console.log(store.getState().recordings);
     ReactDOM.render(
-        <div className="list">
-            {recordings.map(recording => <Rec key={recording.id} recording={recording}/>)}
-        </div>,
-        document.getElementById("root"));
-
-    console.log(users);
-
+        <Provider store={store}>
+            <RecordingEditor/>
+        </Provider>,
+        document.getElementById("root")
+    );
 }
 
 main();
 
-ReactDOM.render(<div>awdwad</div>, document.getElementById("root"));
+function UsersDisplay({users}) {
+    console.dir(users);
+    return (
+        <ul>
+            AA
+            {users.allIds.map(id => <li key={id}>{users.byId[id].name}</li>)}
+            BB
+        </ul>
+    )
+}
+
+UsersDisplay = connect(
+    state => ({users: state.users})
+)(UsersDisplay);
+
+
+
+// ReactDOM.render(
+//     <Provider store={store}>
+//         <RecordingEditor/>
+//     </Provider>,
+//     document.getElementById("root")
+// );

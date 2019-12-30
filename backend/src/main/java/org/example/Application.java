@@ -18,22 +18,43 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
+import java.util.function.IntSupplier;
+import java.util.function.IntUnaryOperator;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 
 @Component("Initializer")
 class Initializer {
+    <T> T getRand(List<T> src) {
+        return src.get(ThreadLocalRandom.current().nextInt(src.size()));
+    }
+
+    Timestamp randTIme() {
+        long offset = Timestamp.valueOf("2019-09-01 00:00:00").getTime();
+        long end = Timestamp.valueOf("2019-11-23 00:00:00").getTime();
+        long diff = end - offset + 1;
+        return new Timestamp(offset + (long)(ThreadLocalRandom.current().nextFloat() * diff));
+    }
+
     @Autowired
     Initializer(UserRepository usersRepo, PlaylistRepository playlistsRepo, RecordingRepository recordingsRepo) throws InterruptedException {
-        List<User> users = Stream.of("Mask", "Leha", "Roma").map(name -> User.builder().name(name).build()).collect(Collectors.toList());
+        List<User> users = Stream.of("Mask", "Leha", "Roma", "Sasha", "Dima", "Dasha").map(name -> User.builder().name(name).build()).collect(Collectors.toList());
         usersRepo.saveAll(users);
 
-        Playlist playlist = playlistsRepo.save(Playlist.builder().name("Matan 2019").build());
+        List<Playlist> playlists = Stream.of("Матан 2019", "Алгем 2019", "Метопты 2019", "АКОС 2019").map(
+                name -> Playlist.builder().name(name).build()).collect(Collectors.toList());
+        playlistsRepo.saveAll(playlists);
 
         List<Recording.Status> s = new ArrayList<Recording.Status>(){{
             add(Recording.Status.PLANNED);
@@ -47,16 +68,25 @@ class Initializer {
             add("рецепт фасолей");
         }};
 
-        List<Recording> recordings = Stream.of(1, 2, 3).map(idx ->
-                Recording.builder()
-                        .name(desc.get(idx - 1))
-                        .status(s.get(idx - 1))
-                        .playlist(playlist)
-                        .playlist_index(idx)
-                        .operator(users.get(ThreadLocalRandom.current().nextInt(users.size())))
-                        .editor(users.get(ThreadLocalRandom.current().nextInt(users.size())))
-                        .time(Timestamp.valueOf("2019-09-0" + idx + " 12:20:00"))
-                        .build()
+        Map<Playlist, Integer> sizes = new HashMap<>();
+        Function<Playlist, Integer> advpl = (Playlist pl) -> {
+            Integer sz = sizes.getOrDefault(pl, 0);
+            sizes.put(pl, ++sz);
+            return sz;
+        };
+
+        List<Recording> recordings = IntStream.range(0, 10).mapToObj(idx -> {
+                    Playlist pl = getRand(playlists);
+                    return Recording.builder()
+                            .name(getRand(desc))
+                            .status(getRand(s))
+                            .playlist(pl)
+                            .playlist_index(advpl.apply(pl))
+                            .operator(getRand(users))
+                            .editor(getRand(users))
+                            .time(randTIme())
+                            .build();
+                }
             ).collect(Collectors.toList());
 
         recordingsRepo.saveAll(recordings);

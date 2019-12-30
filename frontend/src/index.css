@@ -1,3 +1,5 @@
+@import-normalize;
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -10,61 +12,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-
-.recording {
-  background: rgba(1, 1, 1, 0.1);
-  width: 150px;
-  height: 7em;
-  margin: 1em;
-  border-radius: 0.1em;
-  padding: 0.3em;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.number {
-  float: right;
-}
-
-.title {
-  padding: 2px;
-  border-radius: 3px;
-}
-
-.title.planned {
-  background: rgba(255, 171, 0, 0.9);
-}
-
-.title.failed {
-  background: rgba(255, 10, 16, 0.9);
-}
-
-.title.ready {
-  background: rgba(29, 255, 23, 0.9);
-}
-
-.name {
-  /*width: 100%;*/
-  /*height: 2.5em;*/
-  flex-grow: 1;
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 3px;
-  padding: 0.2em;
-  font-weight: bold;
-
-  box-sizing: border-box;
-}
-
-.name > input {
-  /*border: 0;*/
-  width: 100%;
-  box-sizing: border-box;
-  border: 0;
-}
-
-.list {
-  display: flex;
 }

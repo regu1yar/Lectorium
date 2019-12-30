@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.example.model.Recording;
 import org.example.repository.RecordingRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,44 @@
+.recording {
+    background: rgba(1, 1, 1, 0.1);
+    width: 150px;
+    height: 7em;
+    margin: 1em;
+    border-radius: 0.1em;
+    padding: 0.3em;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.recording .number {
+    float: right;
+}
+
+.recording .title {
+    padding: 2px;
+    border-radius: 3px;
+}
+
+.recording.planned {
+    background: #d592ff;
+}
+
+.recording.failed {
+    background: #f4cccc;
+}
+
+.recording.ready {
+    background: #d9ead3;
+}
+
+.recording .name {
+    /*width: 100%;*/
+    /*height: 2.5em;*/
+    flex-grow: 1;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    padding: 0.2em;
+    font-weight: bold;
+
+    box-sizing: border-box;
+}
