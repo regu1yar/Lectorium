@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import RecordingsGrid from "./components/RecordingsGrid";
-import RecordingEditor from "./components/RecordingEditor";
-import Recording from "./components/Recording";
+import RecordingsGrid from "./components/managing/RecordingsGrid";
+import RecordingEditor from "./components/managing/RecordingEditor";
+import Recording from "./components/managing/Recording";
 import * as Redux from 'redux';
 import axios from 'axios';
 import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "./reducers";
 import {connect, Provider} from "react-redux";
+import {BrowserRouter} from 'react-router-dom';
+import MainRouter from './routes';
+import {Header} from "./components/header";
 
 // ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -52,15 +55,20 @@ async function main() {
     //     document.getElementById("root"));
     //
 
-    console.dir(store.getState());
-
-    console.log(store.getState().recordings);
-    ReactDOM.render(
+    const render = () => ReactDOM.render(
         <Provider store={store}>
-            <RecordingEditor/>
+            <BrowserRouter>
+                <div>
+                    <Header/>
+                    <MainRouter/>
+                </div>
+            </BrowserRouter>
         </Provider>,
-        document.getElementById("root")
+        document.getElementById('root')
     );
+
+    store.subscribe(render);
+    render();
 }
 
 main();
