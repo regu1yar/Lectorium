@@ -81,7 +81,7 @@ class Initializer {
                             .name(getRand(desc))
                             .status(getRand(s))
                             .playlist(pl)
-                            .playlist_index(advpl.apply(pl))
+                            .playlistIndex(advpl.apply(pl))
                             .operator(getRand(users))
                             .editor(getRand(users))
                             .time(randTIme())
