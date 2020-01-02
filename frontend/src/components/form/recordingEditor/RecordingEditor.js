@@ -1,11 +1,11 @@
 import React from "react";
-import PlaylistSelector from "./PlaylistSelector";
-import {shotTimeIcon, playlistIcon} from "./icons";
-import UserSelector from "./UserSelector";
+import PlaylistSelector from "../selectors/PlaylistSelector";
+import {shotTimeIcon, playlistIcon} from "../icons";
+import UserSelector from "../selectors/UserSelector";
 import "./RecordingEditor.css";
 import moment from "moment";
 import DateTimePicker from "react-datetime-picker";
-import StatusSelector from "./StatusSelector";
+import StatusSelector from "../selectors/StatusSelector";
 import { Formik, useFormik, useField, Field, Form } from 'formik';
 import {connect} from "react-redux";
 

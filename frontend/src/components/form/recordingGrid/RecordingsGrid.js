@@ -1,8 +1,8 @@
-import Recording from "./Recording";
+import Recording from "../recording/Recording";
 import React from "react";
 import "./RecordingsGrid.css";
 // import Modal from "react-modal";
-import RecordingEditor from "./RecordingEditor";
+import RecordingEditor from "../recordingEditor/RecordingEditor";
 import {connect} from "react-redux";
 
 function RecordingsGrid({recordings, playlists, users}) {
