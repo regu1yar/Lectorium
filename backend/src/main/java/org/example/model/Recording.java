@@ -20,8 +20,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Recording {
-    public interface Summary {}
-
     public enum Status {PLANNED, READY, FAILED};
 
     @Id
@@ -34,19 +32,13 @@ public class Recording {
     private Status status;
 
     @ManyToOne
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true) // otherwise first ref as POJO, others as id
     private Playlist playlist;
 
-    private Integer playlist_index;
+    private Integer playlistIndex;
 
     @ManyToOne
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true) // otherwise first ref as POJO, others as id
     private User operator;
 
     @ManyToOne
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true) // otherwise first ref as POJO, others as id
     private User editor;
 }
