@@ -4,69 +4,38 @@ import ReactDOM from 'react-dom';
 import RecordingEditor from "../../../components/form/recordingEditor/RecordingEditor";
 import * as Redux from 'redux';
 import axios from 'axios';
-import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "../../../reducers";
+// import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "../../../reducers";
 import {connect, Provider} from "react-redux";
 import {api_url} from "../../../constants";
 
 
-function normalize(objArray) {
-    return {
-        byId: Object.fromEntries(objArray.map(obj => [obj.id, obj])),
-        allIds: objArray.map(obj => obj.id),
-    };
-}
 
-const getData = async () => {
-    return {
-        data: {
-            users: await (await fetch(api_url + "api/users")).json(),
-            playlists: await (await fetch(api_url + "api/playlists")).json(),
-            recordings: await (await fetch(api_url + "api/recordings")).json(),
-        }
-    }
-};
+// const getData = async () => {
+//     return {
+//         data: {
+//             users: await (await fetch(api_url + "api/users")).json(),
+//             playlists: await (await fetch(api_url + "api/playlists")).json(),
+//             recordings: await (await fetch(api_url + "api/recordings")).json(),
+//         }
+//     }
+// };
 
 
 export class _Form extends React.Component {
-    store;
-    state = {
-        users: [],
-        playlists: [],
-        recordings: [],
-    };
-
-    async componentDidMount() {
-        let { data } = await getData();
-        this.setState({
-            users: data.users,
-            playlists: data.playlists,
-            recordings: data.recordings,
-        });
-
-        this.store.dispatch({type: SET_USERS, users: normalize(this.state.users)});
-        this.store.dispatch({type: SET_PLAYLISTS, playlists: normalize(this.state.playlists)});
-        this.store.dispatch({type: SET_RECORDINGS, recordings: normalize(this.state.recordings)});
-
-        console.dir(this.store.getState());
-        console.log(this.store.getState().recordings);
-    }
-
     render() {
-        // console.log(this.state);
         return (
-            <Provider store={this.store}>
-                <RecordingEditor/>
-            </Provider>
+            <RecordingEditor onSubmit={console.log}/>
         )
     }
 }
 
-export const Form = connect(
-    store => ({
-        form: store.form,
-    })
-)(_Form);
-
+export const Form = _Form;
+// export const Form = connect(
+//     store => ({
+//         form: store.form,
+//     })
+// )(_Form);
+//
 // async function main() {
 //     const users = await (await fetch(api_url + "api/users")).json();
 //     const playlists = await (await fetch(api_url + "api/playlists")).json();

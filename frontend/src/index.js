@@ -1,27 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import RecordingsGrid from "./components/form/recordingGrid/RecordingsGrid";
-import RecordingEditor from "./components/form/recordingEditor/RecordingEditor";
-import Recording from "./components/form/recording/Recording";
 import * as Redux from 'redux';
-import axios from 'axios';
-import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "./reducers";
-import {connect, Provider} from "react-redux";
+import {lectorium, Status} from "./reducers";
+import {Provider} from "react-redux";
 import {BrowserRouter} from 'react-router-dom';
 import MainRouter from './routes';
 import {Header} from "./components/header";
-import {api_url} from "./constants";
+import {applyMiddleware} from "redux";
+import ReduxThunk from "redux-thunk";
+import {fetch_lectorium_data} from "./actions";
 
-// ReactDOM.render(<App />, document.getElementById('root'));
-
-
-const store = Redux.createStore(lectorium,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
+const store = Redux.createStore(
+    lectorium,
+    composeEnhancers(applyMiddleware(ReduxThunk))
+);
 
 async function main() {
-    const render = () => ReactDOM.render(
+    await fetch_lectorium_data(store.dispatch);
+
+    ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
                 <div>
@@ -32,33 +31,6 @@ async function main() {
         </Provider>,
         document.getElementById('root')
     );
-
-    store.subscribe(render);
-    render();
 }
 
 main();
-
-function UsersDisplay({users}) {
-    console.dir(users);
-    return (
-        <ul>
-            AA
-            {users.allIds.map(id => <li key={id}>{users.byId[id].name}</li>)}
-            BB
-        </ul>
-    )
-}
-
-UsersDisplay = connect(
-    state => ({users: state.users})
-)(UsersDisplay);
-
-
-
-// ReactDOM.render(
-//     <Provider store={store}>
-//         <RecordingEditor/>
-//     </Provider>,
-//     document.getElementById("root")
-// );

@@ -1,20 +1,26 @@
 import React from "react";
+import {connect} from "react-redux";
 
-function UserSelector({users, defaultId, id, onChange, placeholder="выберите пользователя"}) {
+function _UserSelector({users, defaultId, id, onChange, placeholder="выберите пользователя"}) {
+    const none = "-1";
     const cb = (ev) => {
-        const val = parseInt(ev.target.value);
-        onChange && onChange(val === -1 ? null : users[val - 1]); // TODO GET USER BY ID
+        const val = ev.target.value;
+        onChange && onChange(val === none ? null : val); // TODO GET USER BY ID
     };
     if (id === null)
-        id = -1;
+        id = none;
     return (
         <select value={id} defaultValue={defaultId} onChange={cb}>
-            <option value={-1}> {placeholder} </option>
-            {users.map(({id, name}) =>
+            <option value={none}> {placeholder} </option>
+            {users.all.map(({id, name}) =>
                 <option value={id} key={id}> {name} </option>)
             }
         </select>
     )
 }
+
+const UserSelector = connect(
+    state => ({users: state.users})
+)(_UserSelector);
 
 export default UserSelector;
