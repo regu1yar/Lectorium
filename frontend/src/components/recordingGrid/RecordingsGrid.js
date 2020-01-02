@@ -14,7 +14,7 @@ function sortByKey(array, keyFn) {
     });
 }
 
-function RecordingsGrid({recordings, dispatch}) {
+function RecordingsGrid({recordings}) {
     recordings = sortByKey(recordings, rec => rec.time);
 
     return (

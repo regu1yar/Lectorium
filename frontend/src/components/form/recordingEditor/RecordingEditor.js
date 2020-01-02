@@ -28,15 +28,25 @@ function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
     const value = formik.values;
     const handleChange = formik.handleChange;
 
-    const fieldSetter = name => val => {
-        console.log(name, val);
-        formik.setFieldValue(name, val);
-    };
+    // // FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkkkk
+    // if you use fresh lambdas in every render of this form, cpu will choke
+    const setters = React.useMemo(() => {
+        const _fieldSetter = name => val => {
+            console.log(name, val);
+            formik.setFieldValue(name, val);
+        };
+        const _setters = {};
+        for (let name of ["status", "playlistId", "editorId", "operatorId", "time"])
+            _setters[name] = _fieldSetter(name);
+        return _setters;
+    }, [formik.setFieldValue]);
+
+    const fieldSetter = name => setters[name];
 
     return (
         <form className="RecordingEditor">
             <label>
-                Статус: <StatusSelector value={value.status} onChange={fieldSetter("status")}/>
+                Статус: <StatusSelector value={value.status} onChange={setters["status"]}/>
             </label>
             <label>
                 Плейлист: <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
