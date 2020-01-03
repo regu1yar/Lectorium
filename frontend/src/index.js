@@ -18,7 +18,7 @@ const store = Redux.createStore(
 );
 
 async function main() {
-    await fetch_lectorium_data(store.dispatch);
+    /*await*/ fetch_lectorium_data(store.dispatch);
 
     ReactDOM.render(
         <Provider store={store}>

@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.png';
 import './App.css';
 
-function App() {
+function Main() {
     return (
         <div className="App App-container">
             <img src={logo} className="App-logo" alt="logo" />
@@ -21,4 +21,4 @@ function App() {
     );
 }
 
-export default App;
+export {Main};

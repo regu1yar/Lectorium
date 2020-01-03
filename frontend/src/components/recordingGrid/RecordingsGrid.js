@@ -1,9 +1,7 @@
 import Recording from "../recording/Recording";
 import React from "react";
 import "./RecordingsGrid.css";
-// import Modal from "react-modal";
 import {connect} from "react-redux";
-import {fetch_lectorium_data} from "../../actions";
 
 function sortByKey(array, keyFn) {
     return array.sort((a, b) => {

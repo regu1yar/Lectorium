@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 
 
 
-function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
+function RecordingEditor({defaultValue, onSubmit}) {
     const def = {
         status: "PLANNED",
         name: "",
@@ -74,18 +74,7 @@ function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
 
 export default connect(
     state => ({
-        // defaultValue: denormalizeRec(state, state.recordings.byId[state.recordings.allIds[0]]),
         users: state.users,
         playlists: state.playlists,
     })
 )(RecordingEditor);
-
-// function RecForm() {
-//     return (
-//         <form>
-//             <select>
-//                 {}
-//             </select>
-//         </form>
-//     )
-// }

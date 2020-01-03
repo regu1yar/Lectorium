@@ -32,7 +32,10 @@ export class _Form extends React.Component {
     render() {
         if (this.props.state.status === Status.LOADING) {
             return <p> Loading... </p>;
+        } else if (this.props.state.status === Status.ERROR) {
+            return <p> Error! {this.props.state.error.toString()} </p>
         }
+
         return (
             <RecordingEditor onSubmit={this.submit}/>
         )
