@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import './Recording.css';
-import {shotTimeIcon, operatorIcon, editorIcon, playlistIcon} from "./icons";
+import {shotTimeIcon, operatorIcon, editorIcon, playlistIcon} from "../icons";
 
 function Recording({recording: {name, time, playlist, playlist_index, operator, editor, status}}) {
     return (

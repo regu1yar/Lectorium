@@ -1,26 +1,24 @@
 import React from "react";
-import PlaylistSelector from "./PlaylistSelector";
-import {shotTimeIcon, playlistIcon} from "./icons";
-import UserSelector from "./UserSelector";
+import PlaylistSelector from "../selectors/PlaylistSelector";
+import {shotTimeIcon, playlistIcon} from "../../icons";
+import UserSelector from "../selectors/UserSelector";
 import "./RecordingEditor.css";
 import moment from "moment";
 import DateTimePicker from "react-datetime-picker";
-import StatusSelector from "./StatusSelector";
+import StatusSelector from "../selectors/StatusSelector";
 import { Formik, useFormik, useField, Field, Form } from 'formik';
 import {connect} from "react-redux";
 
 
 
 function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
-    console.dir(defaultValue);
-
     const def = {
         status: "PLANNED",
         name: "",
-        playlists: null,
-        playlist_index: null,
-        operator: null,
-        editor: null,
+        playlistId: null,
+        playlist_index: 5, // TODO: nullability
+        operatorId: null,
+        editorId: null,
         time: null,
     };
 
@@ -30,18 +28,28 @@ function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
     const value = formik.values;
     const handleChange = formik.handleChange;
 
-    const fieldSetter = name => val => {
-        console.log(name, val);
-        formik.setFieldValue(name, val);
-    };
+    // // FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkkkk
+    // if you use fresh lambdas in every render of this form, cpu will choke
+    const setters = React.useMemo(() => {
+        const _fieldSetter = name => val => {
+            console.log(name, val);
+            formik.setFieldValue(name, val);
+        };
+        const _setters = {};
+        for (let name of ["status", "playlistId", "editorId", "operatorId", "time"])
+            _setters[name] = _fieldSetter(name);
+        return _setters;
+    }, [formik.setFieldValue]);
+
+    const fieldSetter = name => setters[name];
 
     return (
         <form className="RecordingEditor">
             <label>
-                Статус: <StatusSelector value={value.status} onChange={fieldSetter("status")}/>
+                Статус: <StatusSelector value={value.status} onChange={setters["status"]}/>
             </label>
             <label>
-                Плейлист: <PlaylistSelector playlists={playlists} id={value.playlist ? value.playlist.id : null} onChange={fieldSetter("playlist")}/>
+                Плейлист: <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
             </label>
             <label>
                 Номер: <input value={value.playlist_index} name="playlist_index" onChange={handleChange}/>
@@ -53,10 +61,10 @@ function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
                 Дата съёмки: <DateTimePicker value={value.time} onChange={fieldSetter("time")}/>
             </label>
             <label>
-                Оператор: <UserSelector users={users} id={value.operator ? value.operator.id : null} onChange={fieldSetter("operator")}/>
+                Оператор: <UserSelector id={value.operatorId} onChange={fieldSetter("operatorId")}/>
             </label>
             <label>
-                Монтирующий: <UserSelector users={users} id={value.editor ? value.editor.id : null} onChange={fieldSetter("editor")}/>
+                Монтирующий: <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
             </label>
             <button type="submit" onClick={formik.handleSubmit}>OK</button>
         </form>
@@ -64,22 +72,11 @@ function RecordingEditor({defaultValue, users, playlists, onSubmit}) {
 }
 
 
-function denormalizeRec(state, rec) {
-    return {
-        ...rec,
-        editor: state.users.byId[rec.editor],
-        operator: state.users.byId[rec.operator],
-        playlist: state.playlists.byId[rec.playlist],
-    }
-}
-
-
-
 export default connect(
     state => ({
-        defaultValue: denormalizeRec(state, state.recordings.byId[state.recordings.allIds[0]]),
-        users: state.users.allIds.map(id => state.users.byId[id]),
-        playlists: state.playlists.allIds.map(id => state.users.byId[id]),
+        // defaultValue: denormalizeRec(state, state.recordings.byId[state.recordings.allIds[0]]),
+        users: state.users,
+        playlists: state.playlists,
     })
 )(RecordingEditor);
 

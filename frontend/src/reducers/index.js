@@ -1,69 +1,32 @@
-import {combineReducers} from "redux";
+import {types} from "../actions";
 
-const SET_USERS = "users/set";
+const Status = {
+    LOADING: "LOADING",
+    LOADED: "LOADED",
+    ERROR: "ERROR",
+};
 
-/*
-{
-    byId: {
-        1: {id: 1, name: "aaa"},
-        2: {id: 2, name: "bbb"},
-        ...
-    },
-    allIds: [1, 2, ...],
-}
-*/
-function users(state={byId: {}, allIds: []}, action) {
+const DefaultState = {
+    status: Status.LOADING,
+
+    error: null,
+
+    users: null,
+    playlists: null,
+    recordings: null,
+};
+
+function lectorium(state=DefaultState, action) {
     switch (action.type) {
-        case SET_USERS:
-            return action.users;
+        case types.LOADING:
+            return {...DefaultState, status: Status.LOADING};
+        case types.ERROR:
+            return {...DefaultState, status: Status.ERROR, error: action.reason};
+        case types.LOADED:
+            return {...DefaultState, status: Status.LOADED, ...action.data};
         default:
             return state;
     }
 }
 
-const SET_PLAYLISTS = "playlists/set";
-
-/*
-{
-    byId: {
-        1: {id: 1, name: "aaa"},
-        2: {id: 2, name: "bbb"},
-        ...
-    },
-    allIds: [1, 2, ...],
-}
-*/
-function playlists(state={byId: {}, allIds: []}, action) {
-    switch (action.type) {
-        case SET_PLAYLISTS:
-            return action.playlists;
-        default:
-            return state;
-    }
-}
-
-const SET_RECORDINGS= "recordings/set";
-
-/*
-{
-    byId: {
-        1: {id: 1, name: "aaa", playlist_id: 123, time: ..., ...},
-        ...
-    },
-    allIds: [1, ...],
-}
-*/
-function recordings(state={byId: {}, allIds: []}, action) {
-    switch (action.type) {
-        case SET_RECORDINGS:
-            return action.recordings;
-        default:
-            return state;
-    }
-}
-
-
-const lectorium = combineReducers({users, recordings, playlists});
-
-
-export {SET_USERS, SET_PLAYLISTS, SET_RECORDINGS, lectorium};
+export {lectorium, Status};
