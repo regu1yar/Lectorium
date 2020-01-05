@@ -3,13 +3,17 @@ export const SITE_STRUCTURE = {
         title: 'Главная',
         route: '/',
     },
+    calendar: {
+        title: 'Календарь cъёмок',
+        route: '/calendar/'
+    },
     schedule: {
         title: 'Расписание',
         route: '/schedule/',
     },
     managing: {
         title: 'Страница управления',
-        route: '/form',
+        route: '/form/',
     },
     profile: {
         title: 'Профиль',

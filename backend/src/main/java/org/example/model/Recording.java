@@ -29,6 +29,9 @@ public class Recording {
     private String name;
     private Timestamp time;
 
+    private Timestamp start;
+    private Timestamp end;
+
     private Status status;
 
     @ManyToOne
