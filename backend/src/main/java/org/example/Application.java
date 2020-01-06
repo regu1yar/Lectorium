@@ -17,6 +17,7 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Entity;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -37,6 +38,15 @@ import java.util.stream.Stream;
 
 @Component("Initializer")
 class Initializer {
+    @Autowired
+    UserRepository usersRepo;
+
+    @Autowired
+    PlaylistRepository playlistsRepo;
+
+    @Autowired
+    RecordingRepository recordingsRepo;
+
     <T> T getRand(List<T> src) {
         return src.get(ThreadLocalRandom.current().nextInt(src.size()));
     }
@@ -48,8 +58,9 @@ class Initializer {
         return new Timestamp(offset + (long)(ThreadLocalRandom.current().nextFloat() * diff));
     }
 
-    @Autowired
-    Initializer(UserRepository usersRepo, PlaylistRepository playlistsRepo, RecordingRepository recordingsRepo) throws InterruptedException {
+    // TODO: why it's a bad idea to do something in constructor
+    @PostConstruct
+    void initDB() throws InterruptedException {
         List<User> users = Stream.of("Mask", "Leha", "Roma", "Sasha", "Dima", "Dasha").map(name -> User.builder().name(name).build()).collect(Collectors.toList());
         usersRepo.saveAll(users);
 
