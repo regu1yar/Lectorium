@@ -1,6 +1,7 @@
 package org.example;
 
 import lombok.Data;
+import org.apache.tomcat.jni.Local;
 import org.example.model.Playlist;
 import org.example.model.Recording;
 import org.example.model.User;
@@ -52,10 +53,13 @@ class Initializer {
     }
 
     Timestamp randTIme() {
-        long offset = Timestamp.valueOf("2019-09-01 00:00:00").getTime();
-        long end = Timestamp.valueOf("2019-11-23 00:00:00").getTime();
-        long diff = end - offset + 1;
-        return new Timestamp(offset + (long)(ThreadLocalRandom.current().nextFloat() * diff));
+        LocalDateTime start = LocalDateTime.now().minusDays(4);
+        LocalDateTime end = LocalDateTime.now().plusDays(4);
+
+        long startTs = Timestamp.valueOf(start).getTime();
+        long endTs = Timestamp.valueOf(end).getTime();
+        long diff = endTs - startTs + 1;
+        return new Timestamp(startTs + (long)(ThreadLocalRandom.current().nextFloat() * diff));
     }
 
     // TODO: why it's a bad idea to do something in constructor
@@ -87,7 +91,7 @@ class Initializer {
             return sz;
         };
 
-        List<Recording> recordings = IntStream.range(0, 10).mapToObj(idx -> {
+        List<Recording> recordings = IntStream.range(0, 30).mapToObj(idx -> {
                     Playlist pl = getRand(playlists);
                     Timestamp start = randTIme();
                     Timestamp end = Timestamp.valueOf(start.toLocalDateTime().plusHours(1).plusMinutes(25));

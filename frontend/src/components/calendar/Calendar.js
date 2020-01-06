@@ -24,6 +24,7 @@ export function MyCalendar({recordings}) {
                 events={recEvents}
                 startAccessor="start"
                 endAccessor="end"
+                defaultView="week"
             />
         </div>
     );
