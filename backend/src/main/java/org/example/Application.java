@@ -77,6 +77,7 @@ class Initializer {
 
         List<Recording> recordings = IntStream.range(0, 10).mapToObj(idx -> {
                     Playlist pl = getRand(playlists);
+                    Timestamp ts = randTIme();
                     return Recording.builder()
                             .name(getRand(desc))
                             .status(getRand(s))
@@ -84,7 +85,9 @@ class Initializer {
                             .playlistIndex(advpl.apply(pl))
                             .operator(getRand(users))
                             .editor(getRand(users))
-                            .time(randTIme())
+                            .time(ts)
+                            .start(ts)
+                            .end(new Timestamp(ts.getTime() + 3600000))
                             .build();
                 }
             ).collect(Collectors.toList());

@@ -24,7 +24,7 @@ function _Calendar({state, dispatch}) {
     return (
         <div>
             <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>
-            <MyCalendar/>
+            <MyCalendar recordings={state.recordings.all}/>
         </div>
     )
 }

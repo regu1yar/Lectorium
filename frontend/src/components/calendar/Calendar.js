@@ -5,11 +5,11 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {connect} from "react-redux";
 const localizer = momentLocalizer(moment);
 
-function recordingEvent({recording: {name, start, end}}) {
+function recordingEvent(recording) {
     return {
-        name: name,
-        start: start,
-        end: end
+        name: recording.name,
+        start: recording.start,
+        end: recording.end
     }
 }
 
