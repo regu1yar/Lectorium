@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +78,8 @@ class Initializer {
 
         List<Recording> recordings = IntStream.range(0, 10).mapToObj(idx -> {
                     Playlist pl = getRand(playlists);
-                    Timestamp ts = randTIme();
+                    Timestamp start = randTIme();
+                    Timestamp end = Timestamp.valueOf(start.toLocalDateTime().plusHours(1).plusMinutes(25));
                     return Recording.builder()
                             .name(getRand(desc))
                             .status(getRand(s))
@@ -85,8 +87,8 @@ class Initializer {
                             .playlistIndex(advpl.apply(pl))
                             .operator(getRand(users))
                             .editor(getRand(users))
-                            .start(ts)
-                            .end(new Timestamp(ts.getTime() + 3600000))
+                            .start(start)
+                            .end(end)
                             .build();
                 }
             ).collect(Collectors.toList());
