@@ -1,10 +1,9 @@
 import React from "react";
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from 'moment'
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Recording from "../recording/Recording";
-
-const localizer = momentLocalizer(moment)
+import {connect} from "react-redux";
+const localizer = momentLocalizer(moment);
 
 function recordingEvent({recording: {name, start, end}}) {
     return {
@@ -15,18 +14,23 @@ function recordingEvent({recording: {name, start, end}}) {
 }
 
 export function MyCalendar({recordings}) {
-    const state = {
-        events: recordings.map(recordingEvent)
-    };
+    const recEvents = recordings.map(recording =>
+        recordingEvent(recording));
 
     return (
         <div>
             <Calendar
                 localizer={localizer}
-                events={recordings.map(recordingEvent)}
+                events={recEvents}
                 startAccessor="start"
                 endAccessor="end"
             />
         </div>
     );
 }
+
+export default connect(
+    state => ({
+        recordings: state.recordings.all
+    })
+)(MyCalendar);
