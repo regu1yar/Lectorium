@@ -27,7 +27,6 @@ public class Recording {
     private Long id;
 
     private String name;
-    private Timestamp time;
 
     private Timestamp start;
     private Timestamp end;

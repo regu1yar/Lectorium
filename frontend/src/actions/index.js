@@ -1,5 +1,6 @@
 import Axios from "axios";
 import {api_url} from "../constants";
+import Moment from "moment";
 
 const types = {
     LOADING: "LOADING",
@@ -40,6 +41,13 @@ async function _fetch_lectorium_data() {
         rec.operator = data.users.byId[rec.operatorId];
         rec.editor = data.users.byId[rec.editorId];
         rec.playlist = data.playlists.byId[rec.playlistId];
+        rec.start = new Moment(rec.start);
+        rec.end = new Moment(rec.end);
+
+        rec.start = rec.start.toDate();
+        rec.end = rec.end.toDate();
+
+        console.log(rec);
     });
 
     return data;

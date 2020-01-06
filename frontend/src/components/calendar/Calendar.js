@@ -7,7 +7,7 @@ const localizer = momentLocalizer(moment);
 
 function recordingEvent(recording) {
     return {
-        name: recording.name,
+        title: recording.name,
         start: recording.start,
         end: recording.end
     }

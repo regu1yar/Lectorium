@@ -85,7 +85,6 @@ class Initializer {
                             .playlistIndex(advpl.apply(pl))
                             .operator(getRand(users))
                             .editor(getRand(users))
-                            .time(ts)
                             .start(ts)
                             .end(new Timestamp(ts.getTime() + 3600000))
                             .build();
