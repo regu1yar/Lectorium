@@ -5,6 +5,8 @@ import UserSelector from "../selectors/UserSelector";
 import "./RecordingEditor.css";
 import moment from "moment";
 import DateTimePicker from "react-datetime-picker";
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
 import StatusSelector from "../selectors/StatusSelector";
 import { Formik, useFormik, useField, Field, Form } from 'formik';
 import {connect} from "react-redux";
@@ -19,10 +21,11 @@ function RecordingEditor({defaultValue, onSubmit}) {
         playlist_index: 5, // TODO: nullability
         operatorId: null,
         editorId: null,
-        time: null,
+        start: null,
+        end: null,
     };
 
-    const dvFixed = (defaultValue ? {...defaultValue, time: moment(defaultValue.time).toDate()} : def);
+    const dvFixed = (defaultValue ? {...defaultValue, start: moment(defaultValue.start).toDate()} : def);
     const formik = useFormik({initialValues: dvFixed, onSubmit: (val) => (onSubmit && onSubmit(val))});
 
     const value = formik.values;
@@ -36,7 +39,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
             formik.setFieldValue(name, val);
         };
         const _setters = {};
-        for (let name of ["status", "playlistId", "editorId", "operatorId", "time"])
+        for (let name of ["status", "playlistId", "editorId", "operatorId", "start", "duration"])
             _setters[name] = _fieldSetter(name);
         return _setters;
     }, [formik.setFieldValue]);
@@ -58,7 +61,10 @@ function RecordingEditor({defaultValue, onSubmit}) {
                 Название: <input value={value.name} name="name" onChange={handleChange}/>
             </label>
             <label>
-                Дата съёмки: <DateTimePicker value={value.time} onChange={fieldSetter("time")}/>
+                Дата съёмки: <DateTimePicker value={value.start} onChange={fieldSetter("start")}/>
+            </label>
+            <label>
+                Продолжительность съёмки: <TimePicker showSecond={false} defaultValue={moment().hour(1).minute(25)} format={'h:mm'} onChange = {fieldSetter("duration")}/>
             </label>
             <label>
                 Оператор: <UserSelector id={value.operatorId} onChange={fieldSetter("operatorId")}/>

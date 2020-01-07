@@ -9,22 +9,13 @@ import {connect, Provider} from "react-redux";
 import {api_url} from "../../../constants";
 import {fetch_lectorium_data} from "../../../actions";
 import {Status} from "../../../reducers";
-
-
-
-// const getData = async () => {
-//     return {
-//         data: {
-//             users: await (await fetch(api_url + "api/users")).json(),
-//             playlists: await (await fetch(api_url + "api/playlists")).json(),
-//             recordings: await (await fetch(api_url + "api/recordings")).json(),
-//         }
-//     }
-// };
+import moment from "moment";
 
 
 export class _Form extends React.Component {
     submit = async recording => {
+        recording.end = moment(recording.start).add(recording.duration.hour(), 'hours').add(recording.duration.minute(), 'minutes').toDate();
+        delete recording.duration;
         await Axios.post(api_url + "api/recordings/save", recording);
         this.props.dispatch(fetch_lectorium_data);
     };
