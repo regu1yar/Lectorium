@@ -22,7 +22,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
         operatorId: null,
         editorId: null,
         start: null,
-        end: null,
+        duration: moment().hour(1).minute(25),
     };
 
     const dvFixed = (defaultValue ? {...defaultValue, start: moment(defaultValue.start).toDate()} : def);
@@ -64,7 +64,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
                 Дата съёмки: <DateTimePicker value={value.start} onChange={fieldSetter("start")}/>
             </label>
             <label>
-                Продолжительность съёмки: <TimePicker showSecond={false} defaultValue={moment().hour(1).minute(25)} format={'h:mm'} onChange = {fieldSetter("duration")}/>
+                Продолжительность съёмки: <TimePicker showSecond={false} value={value.duration} format={'h:mm'} onChange = {fieldSetter("duration")}/>
             </label>
             <label>
                 Оператор: <UserSelector id={value.operatorId} onChange={fieldSetter("operatorId")}/>
