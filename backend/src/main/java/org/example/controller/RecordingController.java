@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.example.model.Recording;
 import org.example.repository.PlaylistRepository;
@@ -48,7 +47,6 @@ class RecordingDTO {
 
 
 
-@CrossOrigin
 @RestController
 public class RecordingController {
     @Autowired

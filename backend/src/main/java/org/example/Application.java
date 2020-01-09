@@ -1,7 +1,5 @@
 package org.example;
 
-import lombok.Data;
-import org.apache.tomcat.jni.Local;
 import org.example.model.Playlist;
 import org.example.model.Recording;
 import org.example.model.User;
@@ -9,18 +7,12 @@ import org.example.repository.PlaylistRepository;
 import org.example.repository.RecordingRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Entity;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,9 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
-import java.util.function.IntSupplier;
-import java.util.function.IntUnaryOperator;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -65,7 +54,9 @@ class Initializer {
     // TODO: why it's a bad idea to do something in constructor
     @PostConstruct
     void initDB() throws InterruptedException {
-        List<User> users = Stream.of("Mask", "Leha", "Roma", "Sasha", "Dima", "Dasha").map(name -> User.builder().name(name).build()).collect(Collectors.toList());
+        List<User> users = Stream.of("Mask", "Leha", "Roma", "Sasha", "Dima", "Dasha").map(
+                name -> User.builder().name(name).password("{noop}p").build()
+        ).collect(Collectors.toList());
         usersRepo.saveAll(users);
 
         List<Playlist> playlists = Stream.of("Матан 2019", "Алгем 2019", "Метопты 2019", "АКОС 2019").map(
