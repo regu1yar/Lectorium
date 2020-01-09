@@ -20,7 +20,7 @@ function _UserSelector({users, defaultId, id, onChange, placeholder="выбер�
 }
 
 const UserSelector = connect(
-    state => ({users: state.users})
+    state => ({users: state.lectorium_data.users})
 )(_UserSelector);
 
 export default UserSelector;

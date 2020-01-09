@@ -1,10 +1,10 @@
 import {connect} from "react-redux";
 import React from "react";
 import {MyCalendar} from "../../components/calendar/Calendar";
-import {fetch_lectorium_data} from "../../actions";
-import {Status} from "../../reducers";
+import {fetch_lectorium_data} from "../../actions/lectorium_data";
+import {Status} from "../../reducers/lectorium_data";
 
-function _Calendar({state, dispatch}) {
+function _Calendar({data, dispatch}) {
     const [fetched, setFetched] = React.useState(false);
 
     React.useEffect(() => {
@@ -14,23 +14,24 @@ function _Calendar({state, dispatch}) {
         }
     }, []);
 
-    if (state.status === Status.LOADING) {
+    const refreshButton = <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>;
+
+    if (data.status === Status.LOADING) {
         return <p> "Loading..." </p>;
-    } else if (state.status === Status.ERROR) {
-        console.log(state);
-        return <p>Error! {state.error.toString()}</p>;
+    } else if (data.status === Status.ERROR) {
+        return <p>Error! {data.error.toString()} {refreshButton} </p>;
     }
 
     return (
         <div>
-            <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>
-            <MyCalendar recordings={state.recordings.all}/>
+            {refreshButton}
+            <MyCalendar recordings={data.recordings.all}/>
         </div>
     )
 }
 
 const Calendar = connect(
-    state => ({state})
+    state => ({data: state.lectorium_data})
 )(_Calendar);
 
 export {Calendar};

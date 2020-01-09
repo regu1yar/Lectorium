@@ -2,20 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as Redux from 'redux';
-import {lectorium, Status} from "./reducers";
-import {Provider} from "react-redux";
+import {Provider, connect} from "react-redux";
 import {BrowserRouter} from 'react-router-dom';
 import MainRouter from './routes';
 import {Header} from "./components/header";
 import {applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
-import {fetch_lectorium_data} from "./actions";
+import {fetch_lectorium_data} from "./actions/lectorium_data";
+import {rootReducer} from "./reducers";
+import {LoginForm} from "./components/loginForm";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
 const store = Redux.createStore(
-    lectorium,
+    rootReducer,
     composeEnhancers(applyMiddleware(ReduxThunk))
 );
+
+fetch_lectorium_data(store.dispatch);
 
 async function main() {
     /*await*/ fetch_lectorium_data(store.dispatch);
@@ -24,6 +27,7 @@ async function main() {
         <Provider store={store}>
             <BrowserRouter>
                 <div>
+                    <LoginForm/>
                     <Header/>
                     <MainRouter/>
                 </div>
@@ -34,3 +38,4 @@ async function main() {
 }
 
 main();
+

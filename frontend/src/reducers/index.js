@@ -1,32 +1,7 @@
-import {types} from "../actions";
+import {authentication} from "./authentication";
+import {lectorium_data} from "./lectorium_data";
+import {combineReducers} from "redux";
 
-const Status = {
-    LOADING: "LOADING",
-    LOADED: "LOADED",
-    ERROR: "ERROR",
-};
+const rootReducer = combineReducers({authentication, lectorium_data});
 
-const DefaultState = {
-    status: Status.LOADING,
-
-    error: null,
-
-    users: null,
-    playlists: null,
-    recordings: null,
-};
-
-function lectorium(state=DefaultState, action) {
-    switch (action.type) {
-        case types.LOADING:
-            return {...DefaultState, status: Status.LOADING};
-        case types.ERROR:
-            return {...DefaultState, status: Status.ERROR, error: action.reason};
-        case types.LOADED:
-            return {...DefaultState, status: Status.LOADED, ...action.data};
-        default:
-            return state;
-    }
-}
-
-export {lectorium, Status};
+export {rootReducer};

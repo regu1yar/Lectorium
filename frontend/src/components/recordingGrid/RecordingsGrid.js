@@ -26,6 +26,6 @@ function RecordingsGrid({recordings}) {
 
 export default connect(
     state => ({
-        recordings: state.recordings.all
+        recordings: state.lectorium_data.recordings.all
     })
 )(RecordingsGrid);

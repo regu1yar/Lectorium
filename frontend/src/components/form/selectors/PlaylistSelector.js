@@ -22,7 +22,7 @@ function _PlaylistSelector({playlists, defaultId, id, onChange}) {
 }
 
 const PlaylistSelector = connect(
-    state => ({playlists: state.playlists})
+    state => ({playlists: state.lectorium_data.playlists})
 )(_PlaylistSelector);
 
 export default PlaylistSelector;

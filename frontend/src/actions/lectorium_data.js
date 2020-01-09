@@ -1,6 +1,7 @@
 import Axios from "axios";
 import {api_url} from "../constants";
 import Moment from "moment";
+import {logout} from "./authentication";
 
 const types = {
     LOADING: "LOADING",
@@ -25,10 +26,11 @@ function withIndex(objects) {
 
 async function _fetch_lectorium_data() {
     await sleep(500);
+    const cfg = {withCredentials: true};
     const [{data: users}, {data: playlists}, {data: recordings}] = await Promise.all([
-            Axios.get(api_url + "api/users"),
-            Axios.get(api_url + "api/playlists"),
-            Axios.get(api_url + "api/recordings"),
+            Axios.get(api_url + "api/users", cfg),
+            Axios.get(api_url + "api/playlists", cfg),
+            Axios.get(api_url + "api/recordings", cfg),
         ]);
 
     let data = {
@@ -60,7 +62,9 @@ async function fetch_lectorium_data(dispatch) {
     try {
         data = await _fetch_lectorium_data();
     } catch (e) {
-        console.dir(e.request);
+        if (e.response && e.response.status === 403)
+            dispatch(logout);
+        console.dir(e);
         dispatch(error(e));
         throw e;
     }

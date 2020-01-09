@@ -7,8 +7,8 @@ import Axios from 'axios';
 // import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "../../../reducers";
 import {connect, Provider} from "react-redux";
 import {api_url} from "../../../constants";
-import {fetch_lectorium_data} from "../../../actions";
-import {Status} from "../../../reducers";
+import {fetch_lectorium_data} from "../../../actions/lectorium_data";
+import {Status} from "../../../reducers/lectorium_data";
 import moment from "moment";
 
 
@@ -21,10 +21,10 @@ export class _Form extends React.Component {
     };
 
     render() {
-        if (this.props.state.status === Status.LOADING) {
+        if (this.props.data.status === Status.LOADING) {
             return <p> Loading... </p>;
-        } else if (this.props.state.status === Status.ERROR) {
-            return <p> Error! {this.props.state.error.toString()} </p>
+        } else if (this.props.data.status === Status.ERROR) {
+            return <p> Error! {this.props.data.error.toString()} </p>
         }
 
         return (
@@ -33,4 +33,4 @@ export class _Form extends React.Component {
     }
 }
 
-export const Form = connect(state => ({state}))(_Form);
+export const Form = connect(state => ({data: state.lectorium_data}))(_Form);
