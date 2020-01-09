@@ -24,7 +24,8 @@ import java.util.stream.Collectors;
 class RecordingDTO {
     Long id;
     String name;
-    Timestamp time;
+    Timestamp start;
+    Timestamp end;
     @NotNull // TODO: other NotNulls?
     Recording.Status status;
     Long playlistId;
@@ -35,7 +36,8 @@ class RecordingDTO {
     RecordingDTO(Recording rec) { // haha, boilerplate
         this.id = rec.getId();
         this.name = rec.getName();
-        this.time = rec.getTime();
+        this.start = rec.getStart();
+        this.end = rec.getEnd();
         this.status = rec.getStatus();
         this.playlistId = rec.getPlaylist() == null ? null : rec.getPlaylist().getId();
         this.playlistIndex = rec.getPlaylistIndex();
@@ -69,7 +71,8 @@ public class RecordingController {
         return Recording.builder()
                 .id(recDTO.getId())
                 .name(recDTO.getName())
-                .time(recDTO.getTime())
+                .start(recDTO.getStart())
+                .end(recDTO.getEnd())
                 .status(recDTO.getStatus())
                 .playlist(
                         getById(recDTO.getPlaylistId(), playlists))
