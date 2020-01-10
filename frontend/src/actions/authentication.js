@@ -52,7 +52,6 @@ async function logout(dispatch, getState) {
 
     // We don't care if the request succeeds
     Axios.post(api_url + "api/logout", undefined, {
-
         // to allow CORS cookie tracking
         withCredentials: true,
 
