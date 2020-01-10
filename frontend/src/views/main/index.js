@@ -5,7 +5,6 @@ import './App.css';
 function Main() {
     return (
         <div className="App App-container">
-            <img src={logo} className="App-logo" alt="logo" />
             <p>
                 Watch out new videos!
             </p>
@@ -15,7 +14,9 @@ function Main() {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                Учение - свет
+                <img src={logo} className="App-logo" alt="logo" />
+                <br/>
+                {/*Учение - свет*/}
             </a>
         </div>
     );

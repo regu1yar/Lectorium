@@ -1,7 +1,6 @@
 .header {
   height: 64px;
   width: 100%;
-  position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
   left: 0;
@@ -23,14 +22,14 @@
   justify-content: center;
   align-items: center;
 
-  color: #a700e9;
+  color: #fc5c00;
   text-decoration: none;
 
   transition: border-bottom-color 0.3s;
   border-bottom: 2px solid transparent;
 
   &:hover {
-    border-bottom: 2px solid rgba(#a700e9, 0.3);
+    border-bottom: 2px solid rgba(#fc5c00, 0.3);
   }
 }
 
@@ -39,5 +38,5 @@
 }
 
 .linkActive {
-  border-bottom: 2px solid #a700e9;
+  border-bottom: 2px solid #fc5c00;
 }
