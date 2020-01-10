@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import java.util.Collections;
@@ -37,14 +38,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin() // TODO: be able to post credentials with json (why?)
                     .loginProcessingUrl("/api/login") // why not?
-                    .failureHandler((req, resp, exc) -> {
-                        resp.setStatus(HttpStatus.UNAUTHORIZED.value());
-                        resp.getWriter().flush();
-                    })
-                    .successHandler((req, resp, exc) -> {
-                        resp.setStatus(HttpStatus.OK.value());
-                        resp.getWriter().flush();
-                    })
+                    .failureHandler((req, resp, exc) -> resp.setStatus(HttpStatus.UNAUTHORIZED.value())) // TODO: Content-Lenght: 0 and other things
+                    .successHandler((req, resp, exc) -> resp.setStatus(HttpStatus.OK.value()))
                     .and()
                 .logout()
                     .logoutUrl("/api/logout")
