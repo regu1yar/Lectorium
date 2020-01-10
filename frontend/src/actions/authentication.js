@@ -18,8 +18,6 @@ const login = (username, password) => async (dispatch) => {
     data.set("password", password);
 
     await Axios.post(api_url + "api/login", data, {
-        headers: {'Content-Type': 'multipart/form-data'},
-
         // to allow CORS cookie tracking
         withCredentials: true,
 

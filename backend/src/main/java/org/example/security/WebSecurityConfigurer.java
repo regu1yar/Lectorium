@@ -37,7 +37,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin() // TODO: be able to post credentials with json (why?)
                     .loginProcessingUrl("/api/login") // why not?
-                    .permitAll()
                     .failureHandler((req, resp, exc) -> {
                         resp.setStatus(HttpStatus.UNAUTHORIZED.value());
                         resp.getWriter().flush();
@@ -49,7 +48,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()
                     .logoutUrl("/api/logout")
-                    .permitAll()
                     .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                     .and()
                 .cors();
