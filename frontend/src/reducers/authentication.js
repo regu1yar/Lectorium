@@ -1,5 +1,5 @@
 const DefaultState = {
-    authenticated: true,
+    authenticated: null, // true, false, null (when loading)
 };
 
 function authentication(state=DefaultState, action) {

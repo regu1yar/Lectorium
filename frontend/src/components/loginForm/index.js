@@ -4,7 +4,13 @@ import React from "react";
 import {Field, Form, Formik} from "formik";
 
 function _LoginForm({authenticated, login, logout}) {
-    if (authenticated) {
+    if (authenticated === null) {
+        return (
+            <div>
+                Loading authentication status...
+            </div>
+        );
+    } else if (authenticated) {
         return (
             <div>
                 LOGGED IN

@@ -28,7 +28,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .headers().and() // TODO: what's this?
-                .anonymous().and()
                 .securityContext().and()
                 .exceptionHandling()
                     .authenticationEntryPoint(new Http403ForbiddenEntryPoint())

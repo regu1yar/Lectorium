@@ -31,6 +31,23 @@ const login = (username, password) => async (dispatch) => {
     dispatch(setAuthenticated(true));
 };
 
+async function checkAuth(dispatch) {
+    let resp;
+    try {
+        resp = await Axios.get(api_url + "api/whoami", {
+            // to allow CORS cookie tracking
+            withCredentials: true,
+        });
+    } catch (e) {
+        dispatch(setAuthenticated(false));
+        if (e.response && e.response.status === 403)
+            return;
+        throw e;
+    }
+    dispatch(setAuthenticated(true));
+    console.log(`I am ${resp.data}`);
+}
+
 async function logout(dispatch, getState) {
     if (!getState().authentication.authenticated)
         return;
@@ -49,4 +66,4 @@ async function logout(dispatch, getState) {
     dispatch(setAuthenticated(false));
 }
 
-export {login, logout};
+export {login, logout, checkAuth};

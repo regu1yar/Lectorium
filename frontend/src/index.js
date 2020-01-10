@@ -11,6 +11,7 @@ import ReduxThunk from "redux-thunk";
 import {fetch_lectorium_data} from "./actions/lectorium_data";
 import {rootReducer} from "./reducers";
 import {LoginForm} from "./components/loginForm";
+import {checkAuth} from "./actions/authentication";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
 const store = Redux.createStore(
@@ -21,7 +22,8 @@ const store = Redux.createStore(
 fetch_lectorium_data(store.dispatch);
 
 async function main() {
-    /*await*/ fetch_lectorium_data(store.dispatch);
+    store.dispatch(checkAuth);
+    store.dispatch(fetch_lectorium_data);
 
     ReactDOM.render(
         <Provider store={store}>
