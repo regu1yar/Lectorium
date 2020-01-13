@@ -33,31 +33,30 @@ function fixValue(value) {
 function RecordingEditor({defaultValue, onSubmit}) {
     defaultValue = defaultValue || {...DefaultValue, start: moment()};
 
-    const formik = useFormik({initialValues: defaultValue, onSubmit: (val) => (onSubmit && onSubmit(fixValue(val)))});
+    const formik = useFormik({
+        initialValues: defaultValue,
+        onSubmit: (val) => (onSubmit && onSubmit(fixValue(val)))
+    });
 
-    const value = formik.values;
-    const handleChange = formik.handleChange;
+    const {values: value, handleChange, setFieldValue} = formik;
 
-    // // FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkkkk
-    // if you use fresh lambdas in every render of this form, cpu will choke
-    const setters = React.useMemo(() => {
+    const fieldSetter = React.useMemo(() => {
         const _fieldSetter = name => val => {
             if (name === "playlist_index" && val === "")
                 val = null;
-            formik.setFieldValue(name, val);
+            setFieldValue(name, val);
         };
+
         const _setters = {};
         for (let name of ["status", "playlistId", "editorId", "operatorId", "start", "duration"])
             _setters[name] = _fieldSetter(name);
-        return _setters;
-    }, [formik.setFieldValue]);
-
-    const fieldSetter = name => setters[name];
+        return name => _setters[name];
+    }, [setFieldValue]);
 
     return (
         <form className="RecordingEditor">
             <span> Статус </span>
-            <StatusSelector value={value.status} onChange={setters["status"]}/>
+            <StatusSelector value={value.status} onChange={fieldSetter("status")}/>
 
             <span> Плейлист</span>
             <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
@@ -69,6 +68,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
             <input value={value.name} name="name" onChange={handleChange}/>
 
             <span> Дата съёмки </span>
+            {/*TODO: fix useless rerender of DatetimePickerTrigger (due to pos update???) */}
             <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")}>
                 <input className="rc-time-picker-input" value={value.start.format("ddd, D MMMM, HH:mm")} readOnly/>
             </DatetimePickerTrigger>
@@ -81,7 +81,8 @@ function RecordingEditor({defaultValue, onSubmit}) {
 
             <span> Монтирующий </span>
             <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
-            <button type="submit" onClick={formik.handleSubmit}>OK</button>
+
+            <button type="submit" onClick={formik.handleSubmit}> Сохранить </button>
         </form>
     );
 }
