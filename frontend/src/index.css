@@ -1,5 +1,18 @@
 @import-normalize;
 
+html, body, #root {
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+#root > * {
+  flex-shrink: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,4 +25,26 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+
+.ccc {
+  width: 500px;
+  height: 200px;
+  background: aqua;
+  opacity: 0.5;
+  display: flex;
+  flex-direction: column;
+}
+
+.bbb {
+  border: 2px solid black;
+  width: 100px;
+  height: 100px;
+  background: salmon;
+  opacity: 0.8;
+}
+
+.ccc:nth-child(2n) {
+  background: #d592ff;
 }

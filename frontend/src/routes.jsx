@@ -5,6 +5,7 @@ import {Form} from "./views/managing/form";
 import {Overview} from "./views/schedule";
 import {Main} from "./views/main";
 import {Calendar} from "./views/calendar";
+import {Profile} from "./views/profile";
 
 const MainRouter = () => (
     <Switch>
@@ -12,6 +13,7 @@ const MainRouter = () => (
         <Route path={SITE_STRUCTURE.managing.route} component={Form}/>
         <Route path={SITE_STRUCTURE.schedule.route} component={Overview}/>
         <Route path={SITE_STRUCTURE.calendar.route} component={Calendar}/>
+        <Route path={SITE_STRUCTURE.profile.route} component={Profile}/>
     </Switch>
 );
 

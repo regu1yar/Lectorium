@@ -10,7 +10,6 @@ import {applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
 import {fetch_lectorium_data} from "./actions/lectorium_data";
 import {rootReducer} from "./reducers";
-import {LoginForm} from "./components/loginForm";
 import {checkAuth} from "./actions/authentication";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
@@ -28,11 +27,8 @@ async function main() {
     ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
-                <div>
-                    <LoginForm/>
-                    <Header/>
-                    <MainRouter/>
-                </div>
+                <Header/>
+                <MainRouter/>
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')
@@ -41,3 +37,15 @@ async function main() {
 
 main();
 
+// ReactDOM.render(
+//     <div className={"ccc"}>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//         <div className={"bbb"}/>
+//     </div>,
+//     document.getElementById("root")
+// )

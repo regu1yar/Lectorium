@@ -1,0 +1,9 @@
+.holder {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.placement {
+    margin: auto;
+}
