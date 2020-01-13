@@ -11,7 +11,7 @@ import ReduxThunk from "redux-thunk";
 import {fetch_lectorium_data} from "./actions/lectorium_data";
 import {rootReducer} from "./reducers";
 import {LoginForm} from "./components/loginForm";
-import {checkAuth} from "./actions/authentication";
+import {checkAuth, login} from "./actions/authentication";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
 const store = Redux.createStore(
@@ -19,11 +19,10 @@ const store = Redux.createStore(
     composeEnhancers(applyMiddleware(ReduxThunk))
 );
 
-fetch_lectorium_data(store.dispatch);
-
 async function main() {
+    // await store.dispatch(login("Mask", "p"));
     store.dispatch(checkAuth);
-    store.dispatch(fetch_lectorium_data);
+    /*await*/ store.dispatch(fetch_lectorium_data);
 
     ReactDOM.render(
         <Provider store={store}>

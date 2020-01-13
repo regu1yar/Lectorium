@@ -10,17 +10,16 @@
     "formik": "^2.0.6",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
+    "rc-datetime-picker": "^1.6.1",
     "react": "^16.12.0",
     "react-big-calendar": "^0.23.0",
-    "react-datetime-picker": "^2.8.0",
     "react-dom": "^16.12.0",
     "react-modal": "^3.11.1",
     "react-redux": "^7.1.3",
     "react-router": "latest",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "react-time-picker": "latest"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -48,8 +48,6 @@ async function _fetch_lectorium_data() {
 
         rec.start = rec.start.toDate();
         rec.end = rec.end.toDate();
-
-        console.log(rec);
     });
 
     return data;

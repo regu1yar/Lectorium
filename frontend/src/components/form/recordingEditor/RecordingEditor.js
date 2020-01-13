@@ -1,32 +1,34 @@
 import React from "react";
 import PlaylistSelector from "../selectors/PlaylistSelector";
-import {shotTimeIcon, playlistIcon} from "../../icons";
 import UserSelector from "../selectors/UserSelector";
 import "./RecordingEditor.css";
 import moment from "moment";
-import DateTimePicker from "react-datetime-picker";
 import TimePicker from 'rc-time-picker';
+import "rc-datetime-picker/dist/picker.css";
 import 'rc-time-picker/assets/index.css';
+import {DatetimePickerTrigger} from "rc-datetime-picker";
 import StatusSelector from "../selectors/StatusSelector";
-import { Formik, useFormik, useField, Field, Form } from 'formik';
-import {connect} from "react-redux";
+import {useFormik} from 'formik';
+import "moment/locale/ru";
 
+const DefaultValue = {
+    id: null,
+    status: "PLANNED",
+    name: "",
+    playlistId: null,
+    playlist_index: null,
+    operatorId: null,
+    editorId: null,
+    start: null,
+    duration: moment().hour(1).minute(25),
+};
 
+moment.locale("ru");
 
 function RecordingEditor({defaultValue, onSubmit}) {
-    const def = {
-        status: "PLANNED",
-        name: "",
-        playlistId: null,
-        playlist_index: 5, // TODO: nullability
-        operatorId: null,
-        editorId: null,
-        start: null,
-        duration: moment().hour(1).minute(25),
-    };
+    defaultValue = defaultValue || {...DefaultValue, start: moment()};
 
-    const dvFixed = (defaultValue ? {...defaultValue, start: moment(defaultValue.start).toDate()} : def);
-    const formik = useFormik({initialValues: dvFixed, onSubmit: (val) => (onSubmit && onSubmit(val))});
+    const formik = useFormik({initialValues: defaultValue, onSubmit: (val) => (onSubmit && onSubmit(val))});
 
     const value = formik.values;
     const handleChange = formik.handleChange;
@@ -35,7 +37,8 @@ function RecordingEditor({defaultValue, onSubmit}) {
     // if you use fresh lambdas in every render of this form, cpu will choke
     const setters = React.useMemo(() => {
         const _fieldSetter = name => val => {
-            console.log(name, val);
+            if (name === "playlist_index" && val === "")
+                val = null;
             formik.setFieldValue(name, val);
         };
         const _setters = {};
@@ -48,39 +51,35 @@ function RecordingEditor({defaultValue, onSubmit}) {
 
     return (
         <form className="RecordingEditor">
-            <label>
-                Статус: <StatusSelector value={value.status} onChange={setters["status"]}/>
-            </label>
-            <label>
-                Плейлист: <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
-            </label>
-            <label>
-                Номер: <input value={value.playlist_index} name="playlist_index" onChange={handleChange}/>
-            </label>
-            <label>
-                Название: <input value={value.name} name="name" onChange={handleChange}/>
-            </label>
-            <label>
-                Дата съёмки: <DateTimePicker value={value.start} onChange={fieldSetter("start")}/>
-            </label>
-            <label>
-                Продолжительность съёмки: <TimePicker showSecond={false} value={value.duration} format={'h:mm'} onChange = {fieldSetter("duration")}/>
-            </label>
-            <label>
-                Оператор: <UserSelector id={value.operatorId} onChange={fieldSetter("operatorId")}/>
-            </label>
-            <label>
-                Монтирующий: <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
-            </label>
+            <span> Статус </span>
+            <StatusSelector value={value.status} onChange={setters["status"]}/>
+
+            <span> Плейлист</span>
+            <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
+
+            <span> Номер</span>
+            <input value={value.playlist_index || ""} name="playlist_index" onChange={handleChange}/>
+
+            <span> Название </span>
+            <input value={value.name} name="name" onChange={handleChange}/>
+
+            <span> Дата съёмки </span>
+            <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")}>
+                <input className="rc-time-picker-input" value={value.start.format("ddd, D MMMM, HH:mm")} readOnly/>
+            </DatetimePickerTrigger>
+
+            <span> Длительность </span>
+            <TimePicker allowEmpty={false} showSecond={false} value={value.duration} format={'h:mm'} onChange = {fieldSetter("duration")}/>
+
+            <span>Оператор </span>
+            <UserSelector id={value.operatorId} onChange={fieldSetter("operatorId")}/>
+
+            <span> Монтирующий </span>
+            <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
             <button type="submit" onClick={formik.handleSubmit}>OK</button>
         </form>
     );
 }
 
 
-export default connect(
-    state => ({
-        users: state.users,
-        playlists: state.playlists,
-    })
-)(RecordingEditor);
+export default RecordingEditor;

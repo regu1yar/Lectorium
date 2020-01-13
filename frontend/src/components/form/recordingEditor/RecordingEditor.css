@@ -1,19 +1,29 @@
 .RecordingEditor {
     display: flex;
     flex-direction: column;
-    width: 400px;
-    background: burlywood;
-    border: 2px solid chocolate;
-    border-radius: 3px;
+    width: 350px;
+    border: 6px solid #ffa229c0;
+    border-radius: 5px;
+    padding: 3px;
 }
 
 .RecordingEditor > * {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin: 0.2em;
 }
 
-.RecordingEditor .react-datetime-picker {
-    background: white;
+.time-picker {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
+}
+
+.RecordingEditor {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-auto-flow: row;
+}
+
+.RecordingEditor > button[type=submit] {
+    grid-column: 1/3;
 }
