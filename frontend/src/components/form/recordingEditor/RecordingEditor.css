@@ -24,6 +24,11 @@
     grid-auto-flow: row;
 }
 
+/* terrible fox to overflow */
+.RecordingEditor input {
+    box-sizing: border-box;
+}
+
 .RecordingEditor > button[type=submit] {
     grid-column: 1/3;
 }

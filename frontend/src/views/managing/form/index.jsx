@@ -14,8 +14,6 @@ import moment from "moment";
 
 export class _Form extends React.Component {
     submit = async recording => {
-        recording.end = moment(recording.start).add(recording.duration.hour(), 'hours').add(recording.duration.minute(), 'minutes').toDate();
-        delete recording.duration;
         await Axios.post(api_url + "api/recordings/save", recording, {withCredentials: true});
         this.props.dispatch(fetch_lectorium_data);
     };

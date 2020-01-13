@@ -4,9 +4,9 @@ import UserSelector from "../selectors/UserSelector";
 import "./RecordingEditor.css";
 import moment from "moment";
 import TimePicker from 'rc-time-picker';
-import "rc-datetime-picker/dist/picker.css";
+import "imrc-datetime-picker/dist/imrc-datetime-picker.css";
 import 'rc-time-picker/assets/index.css';
-import {DatetimePickerTrigger} from "rc-datetime-picker";
+import {DatetimePickerTrigger} from "imrc-datetime-picker";
 import StatusSelector from "../selectors/StatusSelector";
 import {useFormik} from 'formik';
 import "moment/locale/ru";
@@ -23,12 +23,17 @@ const DefaultValue = {
     duration: moment().hour(1).minute(25),
 };
 
-moment.locale("ru");
+function fixValue(value) {
+    value = {...value};
+    value.end = moment(value.start).add(value.duration.hour(), 'hours').add(value.duration.minute(), 'minutes').toDate();
+    delete value.duration;
+    return value;
+}
 
 function RecordingEditor({defaultValue, onSubmit}) {
     defaultValue = defaultValue || {...DefaultValue, start: moment()};
 
-    const formik = useFormik({initialValues: defaultValue, onSubmit: (val) => (onSubmit && onSubmit(val))});
+    const formik = useFormik({initialValues: defaultValue, onSubmit: (val) => (onSubmit && onSubmit(fixValue(val)))});
 
     const value = formik.values;
     const handleChange = formik.handleChange;
