@@ -13,7 +13,7 @@ export const SITE_STRUCTURE = {
     },
     managing: {
         title: 'Страница управления',
-        route: '/form/',
+        route: '/manage/',
     },
     profile: {
         title: 'Профиль',
