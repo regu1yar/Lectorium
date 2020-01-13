@@ -10,13 +10,10 @@ import {applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
 import {fetch_lectorium_data} from "./actions/lectorium_data";
 import {rootReducer} from "./reducers";
-import {LoginForm} from "./components/loginForm";
 import {checkAuth, login} from "./actions/authentication";
 import moment from "moment";
 
-
 moment.locale("ru");
-
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || Redux.compose;
 const store = Redux.createStore(
@@ -32,11 +29,8 @@ async function main() {
     ReactDOM.render(
         <Provider store={store}>
             <BrowserRouter>
-                <div>
-                    <LoginForm/>
-                    <Header/>
-                    <MainRouter/>
-                </div>
+                <Header/>
+                <MainRouter/>
             </BrowserRouter>
         </Provider>,
         document.getElementById('root')
@@ -44,4 +38,3 @@ async function main() {
 }
 
 main();
-

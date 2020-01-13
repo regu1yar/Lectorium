@@ -1,5 +1,18 @@
 @import-normalize;
 
+html, body, #root {
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+#root > * {
+  flex-shrink: 0;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -13,8 +26,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-/*input {*/
-/*  -webkit-appearance: none;*/
-/*  -moz-appearance: none;*/
-/*}*/

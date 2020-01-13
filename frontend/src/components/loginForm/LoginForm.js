@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import {login, logout} from "../../actions/authentication";
 import React from "react";
 import {Field, Form, Formik} from "formik";
+import "./LoginForm.css";
 
 function _LoginForm({authenticated, login, logout}) {
     if (authenticated === null) {
@@ -12,22 +13,25 @@ function _LoginForm({authenticated, login, logout}) {
         );
     } else if (authenticated) {
         return (
-            <div>
-                LOGGED IN
-                <button onClick={() => logout()}>LOGOUT</button>
+            <div className={'loggedIn'}>
+                You are logged in!
+                <br/>
+                <br/>
+                <button onClick={() => logout()} className={"button"}><span>LOGOUT</span></button>
             </div>
         );
     } else {
         return (
-            <div>
+            <div className={'loggedOut'}>
                 UNAUTHORIZED
-                <Formik initialValues={{username: "", password: ""}}
+                <Formik initialValues={{username: "Mask", password: "p"}}
                         onSubmit={vals => login(vals.username, vals.password)}
                 >
                     <Form>
                         <Field name="username"/>
                         <Field type="password" name="password"/>
-                        <button type="submit"> login </button>
+                        <br/>
+                        <button type="submit" className={"button"}><span>LOGIN</span></button>
                     </Form>
                 </Formik>
             </div>
