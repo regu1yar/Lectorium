@@ -12,7 +12,7 @@ function _Calendar({data, dispatch}) {
             dispatch(fetch_lectorium_data);
             setFetched(false);
         }
-    }, []);
+    }, [fetched, dispatch]);
 
     const refreshButton = <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>;
 

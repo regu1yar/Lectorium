@@ -1,15 +1,11 @@
 import React from 'react';
 import './index.css';
-import ReactDOM from 'react-dom';
 import RecordingEditor from "../../../components/form/recordingEditor/RecordingEditor";
-import * as Redux from 'redux';
 import Axios from 'axios';
-// import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "../../../reducers";
-import {connect, Provider} from "react-redux";
+import {connect} from "react-redux";
 import {api_url} from "../../../constants";
 import {fetch_lectorium_data} from "../../../actions/lectorium_data";
 import {Status} from "../../../reducers/lectorium_data";
-import moment from "moment";
 
 
 export class _Form extends React.Component {

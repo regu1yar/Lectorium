@@ -11,7 +11,7 @@ function Main() {
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <img src={logo} className="App-logo"/>
+                <img src={logo} className="App-logo" alt="logo"/>
             </a>
         </div>
     );
