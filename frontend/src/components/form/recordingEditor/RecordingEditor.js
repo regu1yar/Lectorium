@@ -1,7 +1,7 @@
 import React from "react";
 import PlaylistSelector from "../selectors/PlaylistSelector";
 import UserSelector from "../selectors/UserSelector";
-import "./RecordingEditor.css";
+import "./RecordingEditor.scss";
 import moment from "moment";
 import TimePicker from 'rc-time-picker';
 import "imrc-datetime-picker/dist/imrc-datetime-picker.css";
@@ -69,7 +69,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
 
             <span> Дата съёмки </span>
             {/*TODO: fix useless rerender of DatetimePickerTrigger (due to pos update???) */}
-            <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")}>
+            <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")} style={{height: "100%"}}>
                 <input className="rc-time-picker-input" value={value.start.format("ddd, D MMMM, HH:mm")} readOnly/>
             </DatetimePickerTrigger>
 
