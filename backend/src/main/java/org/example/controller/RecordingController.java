@@ -92,4 +92,9 @@ public class RecordingController {
     public void save(@Valid @RequestBody RecordingDTO recDTO) {
         repo.save(fromDTO(recDTO));
     }
+
+    @PostMapping(value = "/api/recordings/delete", consumes = "application/json")
+    public void delete(@Valid @RequestBody RecordingDTO recDTO) {
+        repo.delete(fromDTO(recDTO));
+    }
 }
