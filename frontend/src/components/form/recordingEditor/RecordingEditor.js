@@ -30,14 +30,14 @@ function fixValue(value) {
     return value;
 }
 
-function RecordingEditor({defaultValue, onSubmit}) {
-    if (defaultValue === undefined) {
-        defaultValue = {...DefaultValue, start: moment()};
-    } else {
+function RecordingEditor({defaultValue, onSubmit, onDelete}) {
+    if (defaultValue) {
         // TODO: make duration a `duration`, not a date with duration encoded in hours and minutes
         const duration = moment.duration(defaultValue.end.diff(defaultValue.start));
         const fakeduration = moment().hours(duration.hours()).minutes(duration.minutes());
         defaultValue = {...defaultValue, duration: fakeduration};
+    } else {
+        defaultValue = {...DefaultValue, start: moment()};
     }
 
     const formik = useFormik({
@@ -59,6 +59,16 @@ function RecordingEditor({defaultValue, onSubmit}) {
             _setters[name] = _fieldSetter(name);
         return name => _setters[name];
     }, [setFieldValue]);
+
+    let deleteButton = null;
+    if (onDelete) {
+        deleteButton = (
+            <button type="submit" onClick={(ev) => {
+                ev.preventDefault();
+                onDelete(fixValue(value))
+            }}> Удалить запись </button>
+        );
+    }
 
     return (
         <form className="RecordingEditor">
@@ -90,6 +100,8 @@ function RecordingEditor({defaultValue, onSubmit}) {
             <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
 
             <button type="submit" onClick={formik.handleSubmit}> Сохранить </button>
+
+            {deleteButton}
         </form>
     );
 }
