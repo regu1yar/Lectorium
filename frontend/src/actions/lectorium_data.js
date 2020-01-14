@@ -25,7 +25,8 @@ function withIndex(objects) {
 }
 
 async function _fetch_lectorium_data() {
-    await sleep(500);
+    // await sleep(500);
+
     const cfg = {withCredentials: true};
     const [{data: users}, {data: playlists}, {data: recordings}] = await Promise.all([
             Axios.get(api_url + "api/users", cfg),
@@ -45,9 +46,6 @@ async function _fetch_lectorium_data() {
         rec.playlist = data.playlists.byId[rec.playlistId];
         rec.start = new Moment(rec.start);
         rec.end = new Moment(rec.end);
-
-        rec.start = rec.start.toDate();
-        rec.end = rec.end.toDate();
     });
 
     return data;

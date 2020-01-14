@@ -1,21 +1,19 @@
 import React from 'react';
 import './index.css';
-import ReactDOM from 'react-dom';
 import RecordingEditor from "../../../components/form/recordingEditor/RecordingEditor";
-import * as Redux from 'redux';
 import Axios from 'axios';
-// import {lectorium, SET_RECORDINGS, SET_PLAYLISTS, SET_USERS} from "../../../reducers";
-import {connect, Provider} from "react-redux";
+import {connect} from "react-redux";
 import {api_url} from "../../../constants";
 import {fetch_lectorium_data} from "../../../actions/lectorium_data";
 import {Status} from "../../../reducers/lectorium_data";
-import moment from "moment";
+import {withRouter} from "react-router";
 
 
 export class _Form extends React.Component {
     submit = async recording => {
         await Axios.post(api_url + "api/recordings/save", recording, {withCredentials: true});
         this.props.dispatch(fetch_lectorium_data);
+        this.props.history.goBack();
     };
 
     render() {
@@ -25,10 +23,21 @@ export class _Form extends React.Component {
             return <p> Error! {this.props.data.error.toString()} </p>
         }
 
+        let recording_id = this.props.match.params.id;
+        let recording = undefined;
+        let prefix = "Создание новой записи";
+        if (recording_id !== undefined) {
+            prefix = "Редактирование существующей записи";
+            recording = this.props.data.recordings.byId[recording_id]; // TODO: if does not exist
+        }
+
         return (
-            <RecordingEditor onSubmit={this.submit}/>
+            <div>
+                {prefix}
+                <RecordingEditor onSubmit={this.submit} defaultValue={recording}/>
+            </div>
         )
     }
 }
 
-export const Form = connect(state => ({data: state.lectorium_data}))(_Form);
+export const Form = withRouter(connect(state => ({data: state.lectorium_data}))(_Form));

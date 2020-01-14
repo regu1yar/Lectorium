@@ -1,7 +1,7 @@
 import React from "react";
 import PlaylistSelector from "../selectors/PlaylistSelector";
 import UserSelector from "../selectors/UserSelector";
-import "./RecordingEditor.css";
+import "./RecordingEditor.scss";
 import moment from "moment";
 import TimePicker from 'rc-time-picker';
 import "imrc-datetime-picker/dist/imrc-datetime-picker.css";
@@ -16,7 +16,7 @@ const DefaultValue = {
     status: "PLANNED",
     name: "",
     playlistId: null,
-    playlist_index: null,
+    playlistIndex: null,
     operatorId: null,
     editorId: null,
     start: null,
@@ -31,45 +31,52 @@ function fixValue(value) {
 }
 
 function RecordingEditor({defaultValue, onSubmit}) {
-    defaultValue = defaultValue || {...DefaultValue, start: moment()};
+    if (defaultValue === undefined) {
+        defaultValue = {...DefaultValue, start: moment()};
+    } else {
+        // TODO: make duration a `duration`, not a date with duration encoded in hours and minutes
+        const duration = moment.duration(defaultValue.end.diff(defaultValue.start));
+        const fakeduration = moment().hours(duration.hours()).minutes(duration.minutes());
+        defaultValue = {...defaultValue, duration: fakeduration};
+    }
 
-    const formik = useFormik({initialValues: defaultValue, onSubmit: (val) => (onSubmit && onSubmit(fixValue(val)))});
+    const formik = useFormik({
+        initialValues: defaultValue,
+        onSubmit: (val) => (onSubmit && onSubmit(fixValue(val)))
+    });
 
-    const value = formik.values;
-    const handleChange = formik.handleChange;
+    const {values: value, handleChange, setFieldValue} = formik;
 
-    // // FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKkkkk
-    // if you use fresh lambdas in every render of this form, cpu will choke
-    const setters = React.useMemo(() => {
+    const fieldSetter = React.useMemo(() => {
         const _fieldSetter = name => val => {
-            if (name === "playlist_index" && val === "")
+            if (name === "playlistIndex" && val === "")
                 val = null;
-            formik.setFieldValue(name, val);
+            setFieldValue(name, val);
         };
+
         const _setters = {};
         for (let name of ["status", "playlistId", "editorId", "operatorId", "start", "duration"])
             _setters[name] = _fieldSetter(name);
-        return _setters;
-    }, [formik.setFieldValue]);
-
-    const fieldSetter = name => setters[name];
+        return name => _setters[name];
+    }, [setFieldValue]);
 
     return (
         <form className="RecordingEditor">
             <span> Статус </span>
-            <StatusSelector value={value.status} onChange={setters["status"]}/>
+            <StatusSelector value={value.status} onChange={fieldSetter("status")}/>
 
             <span> Плейлист</span>
             <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
 
             <span> Номер</span>
-            <input value={value.playlist_index || ""} name="playlist_index" onChange={handleChange}/>
+            <input value={value.playlistIndex || ""} name="playlistIndex" onChange={handleChange}/>
 
             <span> Название </span>
             <input value={value.name} name="name" onChange={handleChange}/>
 
             <span> Дата съёмки </span>
-            <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")}>
+            {/*TODO: fix useless rerender of DatetimePickerTrigger (due to pos update???) */}
+            <DatetimePickerTrigger moment={value.start} onChange={fieldSetter("start")} style={{height: "100%"}}>
                 <input className="rc-time-picker-input" value={value.start.format("ddd, D MMMM, HH:mm")} readOnly/>
             </DatetimePickerTrigger>
 
@@ -81,7 +88,8 @@ function RecordingEditor({defaultValue, onSubmit}) {
 
             <span> Монтирующий </span>
             <UserSelector id={value.editorId} onChange={fieldSetter("editorId")}/>
-            <button type="submit" onClick={formik.handleSubmit}>OK</button>
+
+            <button type="submit" onClick={formik.handleSubmit}> Сохранить </button>
         </form>
     );
 }

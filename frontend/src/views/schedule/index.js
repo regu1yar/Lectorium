@@ -12,7 +12,7 @@ function _Overview({data, dispatch}) {
             dispatch(fetch_lectorium_data);
             setFetched(false);
         }
-    }, []);
+    }, [fetched, dispatch]);
 
     const refheshButton = <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>
 

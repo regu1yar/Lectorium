@@ -13,7 +13,7 @@ export const SITE_STRUCTURE = {
     },
     managing: {
         title: 'Страница управления',
-        route: '/form/',
+        route: '/manage/',
     },
     profile: {
         title: 'Профиль',
@@ -23,3 +23,5 @@ export const SITE_STRUCTURE = {
 
 // const api_url = "http://192.168.0.110:8080/";
 export const api_url = "http://localhost:8080/";
+
+export const channel_url = "https://www.youtube.com/channel/UCdxesVp6Fs7wLpnp1XKkvZg";

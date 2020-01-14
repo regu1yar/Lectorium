@@ -1,0 +1,25 @@
+.RecordingEditor {
+    width: 350px;
+    border: 6px solid #ffa229c0;
+    border-radius: 5px;
+    padding: 3px;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(9, 2.5em);
+    grid-auto-flow: row;
+
+    & > * {
+        margin: 0.2em;
+    }
+
+    // Terrible fix to overflow
+    & input {
+        box-sizing: border-box;
+    }
+
+    & > button[type=submit] {
+        grid-column: 1/3;
+    }
+}
+

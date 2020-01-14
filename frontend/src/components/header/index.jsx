@@ -10,7 +10,7 @@ export const Header = () => {
                 <NavLink
                     key={index}
                     to={link.route}
-                    exact={true}
+                    exact
                     className={css.link}
                     activeClassName={css.linkActive}
                 >

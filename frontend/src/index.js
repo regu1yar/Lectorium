@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as Redux from 'redux';
-import {Provider, connect} from "react-redux";
+import {applyMiddleware} from 'redux';
+import {Provider} from "react-redux";
 import {BrowserRouter} from 'react-router-dom';
 import MainRouter from './routes';
 import {Header} from "./components/header";
-import {applyMiddleware} from "redux";
 import ReduxThunk from "redux-thunk";
 import {fetch_lectorium_data} from "./actions/lectorium_data";
 import {rootReducer} from "./reducers";
-import {checkAuth, login} from "./actions/authentication";
+import {checkAuth} from "./actions/authentication";
 import moment from "moment";
 
 moment.locale("ru");
