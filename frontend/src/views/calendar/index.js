@@ -25,7 +25,7 @@ function _Calendar({data, dispatch}) {
     return (
         <div>
             {refreshButton}
-            <MyCalendar recordings={data.recordings.all}/>
+            <MyCalendar/>
         </div>
     )
 }

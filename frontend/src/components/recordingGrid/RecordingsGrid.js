@@ -13,7 +13,7 @@ function sortByKey(array, keyFn) {
 }
 
 function RecordingsGrid({recordings}) {
-    recordings = sortByKey(recordings, rec => rec.time);
+    recordings = sortByKey(recordings, rec => rec.start);
 
     return (
         <div className="grid">

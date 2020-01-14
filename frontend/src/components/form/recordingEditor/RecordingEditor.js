@@ -16,7 +16,7 @@ const DefaultValue = {
     status: "PLANNED",
     name: "",
     playlistId: null,
-    playlist_index: null,
+    playlistIndex: null,
     operatorId: null,
     editorId: null,
     start: null,
@@ -31,7 +31,14 @@ function fixValue(value) {
 }
 
 function RecordingEditor({defaultValue, onSubmit}) {
-    defaultValue = defaultValue || {...DefaultValue, start: moment()};
+    if (defaultValue === undefined) {
+        defaultValue = {...DefaultValue, start: moment()};
+    } else {
+        // TODO: make duration a `duration`, not a date with duration encoded in hours and minutes
+        const duration = moment.duration(defaultValue.end.diff(defaultValue.start));
+        const fakeduration = moment().hours(duration.hours()).minutes(duration.minutes());
+        defaultValue = {...defaultValue, duration: fakeduration};
+    }
 
     const formik = useFormik({
         initialValues: defaultValue,
@@ -42,7 +49,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
 
     const fieldSetter = React.useMemo(() => {
         const _fieldSetter = name => val => {
-            if (name === "playlist_index" && val === "")
+            if (name === "playlistIndex" && val === "")
                 val = null;
             setFieldValue(name, val);
         };
@@ -62,7 +69,7 @@ function RecordingEditor({defaultValue, onSubmit}) {
             <PlaylistSelector id={value.playlistId} onChange={fieldSetter("playlistId")}/>
 
             <span> Номер</span>
-            <input value={value.playlist_index || ""} name="playlist_index" onChange={handleChange}/>
+            <input value={value.playlistIndex || ""} name="playlistIndex" onChange={handleChange}/>
 
             <span> Название </span>
             <input value={value.name} name="name" onChange={handleChange}/>
