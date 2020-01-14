@@ -11,7 +11,7 @@ function _MyCalendar({recordings, history}) {
     const goToEditor = React.useCallback(
         (ev) => {
             console.log(ev.id);
-            history.push("/manage/" + ev.id);
+            history.push(SITE_STRUCTURE.managing.route + ev.id);
         },
         [history]
     );

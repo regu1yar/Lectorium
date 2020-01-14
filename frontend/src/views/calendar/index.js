@@ -5,15 +5,6 @@ import {fetch_lectorium_data} from "../../actions/lectorium_data";
 import {Status} from "../../reducers/lectorium_data";
 
 function _Calendar({data, dispatch}) {
-    const [fetched, setFetched] = React.useState(false);
-
-    React.useEffect(() => {
-        if (!fetched) {
-            dispatch(fetch_lectorium_data);
-            setFetched(false);
-        }
-    }, [fetched, dispatch]);
-
     const refreshButton = <button onClick={() => dispatch(fetch_lectorium_data)}>refresh</button>;
 
     if (data.status === Status.LOADING) {
