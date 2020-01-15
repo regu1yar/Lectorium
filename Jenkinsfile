@@ -4,7 +4,14 @@ pipeline {
         stage('build') {
             steps {
                 dir("backend") {
-                    sh 'pwd'
+                    sh 'mvn compile'
+                }
+            }
+        }
+        stage('test') {
+            steps {
+                dir("backend") {
+                    sh 'mvn test'
                 }
             }
         }
