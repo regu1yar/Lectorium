@@ -23,6 +23,9 @@ const store = Redux.createStore(
 
 async function main() {
     // await store.dispatch(login("Mask", "p"));
+    // TODO: protected routes redirect to profile for the first page load even if user is authenticated
+    // because auth fetching is in progress
+    // - store authentication state also in local storage?
     store.dispatch(checkAuth);
     /*await*/ store.dispatch(fetch_lectorium_data);
 

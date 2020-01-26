@@ -30,11 +30,16 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http
                 .headers().and() // TODO: what's this?
                 .securityContext().and()
+                .anonymous().and()
                 .exceptionHandling()
                     .authenticationEntryPoint(new Http403ForbiddenEntryPoint())
                     .and()
                 .authorizeRequests()
-                    .anyRequest().authenticated()
+                    .antMatchers("/static/**").permitAll()
+                    .antMatchers("/index.html").permitAll()
+                    .antMatchers("/api/**").authenticated()
+                    // TODO?: by default protect all urls?
+                    // (won't work now because it would break forward-controller for single-page-application paths)
                     .and()
                 .formLogin() // TODO: be able to post credentials with json (why?)
                     .loginProcessingUrl("/api/login") // why not?
@@ -57,7 +62,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             return User.builder()
                     .username(user.getName())
                     .password(user.getPassword())
-                    .authorities(Collections.emptyList())
+                    .roles("USER")
                     .build();
         });
     }
