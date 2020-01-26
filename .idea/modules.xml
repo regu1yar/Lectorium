@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/lectorium-dashboard.iml" filepath="$PROJECT_DIR$/backend/lectorium-dashboard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/frontend/lectorium-dashboard-frontend.iml" filepath="$PROJECT_DIR$/frontend/lectorium-dashboard-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lectorium-dashboard-root.iml" filepath="$PROJECT_DIR$/lectorium-dashboard-root.iml" />
+    </modules>
+  </component>
+</project>
