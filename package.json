@@ -1,0 +1,9 @@
+{
+  "name": "aaa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "postbuild": "mkdir backend/target/classes/static -p && cp frontend/build backend/target/classes/static -r -T"
+  }
+}
