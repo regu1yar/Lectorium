@@ -1,0 +1,12 @@
+{
+  "name": "Lectorium dashboard",
+  "description": "Sample lectorium web app",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/java"
+    }
+  ]
+}

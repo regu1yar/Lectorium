@@ -7,6 +7,6 @@
   ],
   "scripts": {
     "postinstall": "cd frontend && npm install && echo 'install is also done by maven'",
-    "build": "cd frontend && npm run build && echo 'build is also done by maven'"
+    "build": "echo 'build is done by maven in the second buildpack'"
   }
 }
