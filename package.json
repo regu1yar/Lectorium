@@ -1,0 +1,11 @@
+{
+  "name": "lectorium root",
+  "version": "0.1.0",
+  "private": true,
+  "cacheDirectories": [
+    "frontend/node_modules"  
+  ],
+  "scripts": {
+    "build": "echo 'build is done by maven'"
+  }
+}
