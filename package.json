@@ -6,7 +6,7 @@
     "frontend/node_modules"  
   ],
   "scripts": {
-    "postinstall": "cd frontend && npm install",
-    "build": "cd frontend && npm run build && echo 'build is also done by maven"
+    "postinstall": "cd frontend && npm install && echo 'install is also done by maven'",
+    "build": "cd frontend && npm run build && echo 'build is also done by maven'"
   }
 }
