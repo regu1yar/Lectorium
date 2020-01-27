@@ -1,8 +1,9 @@
 {
-  "name": "lectorium root",
+  "name": "lectorium-root",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "echo 'build is done by maven'"
+    "postinstall": "cd frontend && npm install && echo 'install is also done by maven'",
+    "build": "cd frontend && npm run build && echo 'build is also done by maven'"
   }
 }
